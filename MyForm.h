@@ -1,5 +1,5 @@
 #pragma once
-
+#include<ctime>
 namespace visualpasswordgenerator {
 
 	using namespace System;
@@ -67,7 +67,7 @@ namespace visualpasswordgenerator {
 			// button1
 			// 
 			this->button1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 18.8F));
-			this->button1->Location = System::Drawing::Point(127, 272);
+			this->button1->Location = System::Drawing::Point(177, 268);
 			this->button1->Name = L"button1";
 			this->button1->Size = System::Drawing::Size(316, 62);
 			this->button1->TabIndex = 0;
@@ -80,7 +80,7 @@ namespace visualpasswordgenerator {
 			this->textBox1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15.8F));
 			this->textBox1->Location = System::Drawing::Point(33, 200);
 			this->textBox1->Name = L"textBox1";
-			this->textBox1->Size = System::Drawing::Size(510, 37);
+			this->textBox1->Size = System::Drawing::Size(605, 37);
 			this->textBox1->TabIndex = 1;
 			// 
 			// label1
@@ -90,7 +90,7 @@ namespace visualpasswordgenerator {
 			this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15.8F));
 			this->label1->ForeColor = System::Drawing::Color::FromArgb(static_cast<System::Int32>(static_cast<System::Byte>(0)), static_cast<System::Int32>(static_cast<System::Byte>(0)),
 				static_cast<System::Int32>(static_cast<System::Byte>(64)));
-			this->label1->Location = System::Drawing::Point(102, 62);
+			this->label1->Location = System::Drawing::Point(142, 64);
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(375, 31);
 			this->label1->TabIndex = 3;
@@ -117,7 +117,7 @@ namespace visualpasswordgenerator {
 			this->numericUpDown1->BackColor = System::Drawing::Color::Black;
 			this->numericUpDown1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 15.8F));
 			this->numericUpDown1->ForeColor = System::Drawing::Color::White;
-			this->numericUpDown1->Location = System::Drawing::Point(127, 132);
+			this->numericUpDown1->Location = System::Drawing::Point(177, 132);
 			this->numericUpDown1->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 32, 0, 0, 0 });
 			this->numericUpDown1->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 12, 0, 0, 0 });
 			this->numericUpDown1->Name = L"numericUpDown1";
@@ -132,7 +132,7 @@ namespace visualpasswordgenerator {
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::Color::White;
-			this->ClientSize = System::Drawing::Size(580, 380);
+			this->ClientSize = System::Drawing::Size(671, 380);
 			this->Controls->Add(this->numericUpDown1);
 			this->Controls->Add(this->button2);
 			this->Controls->Add(this->label1);
@@ -145,44 +145,60 @@ namespace visualpasswordgenerator {
 			this->PerformLayout();
 
 		}
+		unsigned long int randm_next = 1;
+		int randm()
+		{
+			randm_next = randm_next * 1103515245 + 12345;
+			return((unsigned int)(randm_next / 65536) % 32768);
+		}
+		void srandm(unsigned int seed)
+		{
+			randm_next = seed;
+		}
+		int randm_rang(int min, int max)
+		{
+			int dis = max - min;
+			int random = randm() % dis + min;
+			return random;
+		}
 #pragma endregion
 		//Gentrate password
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
 		//Created vraidle
+		srandm(time(0));
 		int count = 0;
 		String^ password;
 		int PassowrdLength = (int)numericUpDown1->Value;
-		Random^ randobj = gcnew Random;
 		while (count < PassowrdLength)
 		{
 			if (count == 0 || count == 4)
 			{
-				int randnum = randobj->Next(97, 122);
+				int randnum = randm_rang(97,122);
 				wchar_t NewChar = static_cast<wchar_t>(randnum);
 				password = password + NewChar;
 			}
 			else if (count==PassowrdLength-1|| count ==8)
 			{
-				int randnum = randobj->Next(65, 90);
+				int randnum = randm_rang(65,90);
 				wchar_t NewChar = static_cast<wchar_t>(randnum);
 				password = password + NewChar;
 			}
 			else if (count == 6)
 			{
-				int randnum = randobj->Next(49, 57);
+				int randnum = randm_rang(49,57);
 				wchar_t NewChar = static_cast<wchar_t>(randnum);
 				password = password + NewChar;
 			}
 			else if (count == 7)
 			{
-				int randnum = randobj->Next(64,64);
+				int randnum = randm_rang(64,65);
 				wchar_t NewChar = static_cast<wchar_t>(randnum);
 				password = password + NewChar;
 
 			}
 			else
 			{
-				int randnum = randobj->Next(33, 126);
+				int randnum = randm_rang(33,126);
 				wchar_t NewChar = static_cast<wchar_t>(randnum);
 				password = password + NewChar;
 			}
