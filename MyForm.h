@@ -145,16 +145,22 @@ namespace visualpasswordgenerator {
 			this->PerformLayout();
 
 		}
+		//Gentrate password
+		// randm_next which is use to creat new value number with previous value
 		unsigned long int randm_next = 1;
+		// randm function return a big value every time differnt value
 		int randm()
 		{
 			randm_next = randm_next * 1103515245 + 12345;
 			return((unsigned int)(randm_next / 65536) % 32768);
 		}
+		// srandm function initilize randm_next with differnt quantites 
+		// it help to genrate every time different series
 		void srandm(unsigned int seed)
 		{
 			randm_next = seed;
 		}
+		//randm_rang fuction is help to generate random number in given range
 		int randm_rang(int min, int max)
 		{
 			int dis = max - min;
@@ -162,33 +168,40 @@ namespace visualpasswordgenerator {
 			return random;
 		}
 #pragma endregion
-		//Gentrate password
+	//button for genrated
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
-		//Created vraidle
+		//give srandm cureent time because time is different every time when program is run
 		srandm(time(0));
 		int count = 0;
+		//password which storged the password
 		String^ password;
+		//passwrdlength is which length password user want 
 		int PassowrdLength = (int)numericUpDown1->Value;
+		//while loop run to creat the password
 		while (count < PassowrdLength)
 		{
+			//for generated lower character
 			if (count == 0 || count == 4)
 			{
 				int randnum = randm_rang(97,122);
 				wchar_t NewChar = static_cast<wchar_t>(randnum);
 				password = password + NewChar;
 			}
+			//for generated upper character
 			else if (count==PassowrdLength-1|| count ==8)
 			{
 				int randnum = randm_rang(65,90);
 				wchar_t NewChar = static_cast<wchar_t>(randnum);
 				password = password + NewChar;
 			}
+			//for generated digit character
 			else if (count == 6)
 			{
 				int randnum = randm_rang(49,57);
 				wchar_t NewChar = static_cast<wchar_t>(randnum);
 				password = password + NewChar;
 			}
+			//for generated @ sign character
 			else if (count == 7)
 			{
 				int randnum = randm_rang(64,65);
@@ -196,6 +209,7 @@ namespace visualpasswordgenerator {
 				password = password + NewChar;
 
 			}
+			//for generated any character
 			else
 			{
 				int randnum = randm_rang(33,126);
