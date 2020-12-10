@@ -40,6 +40,8 @@ namespace visualpasswordgenerator {
 	private: System::Windows::Forms::Label^ label1;
 	private: System::Windows::Forms::Button^ button2;
 	private: System::Windows::Forms::NumericUpDown^ numericUpDown1;
+	private: System::Windows::Forms::Button^ button3;
+
 
 	protected:
 
@@ -61,6 +63,7 @@ namespace visualpasswordgenerator {
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->button2 = (gcnew System::Windows::Forms::Button());
 			this->numericUpDown1 = (gcnew System::Windows::Forms::NumericUpDown());
+			this->button3 = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown1))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -82,6 +85,7 @@ namespace visualpasswordgenerator {
 			this->textBox1->Name = L"textBox1";
 			this->textBox1->Size = System::Drawing::Size(605, 37);
 			this->textBox1->TabIndex = 1;
+			this->textBox1->Text = L"Create password";
 			// 
 			// label1
 			// 
@@ -127,12 +131,24 @@ namespace visualpasswordgenerator {
 			this->numericUpDown1->TextAlign = System::Windows::Forms::HorizontalAlignment::Right;
 			this->numericUpDown1->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 12, 0, 0, 0 });
 			// 
+			// button3
+			// 
+			this->button3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10));
+			this->button3->Location = System::Drawing::Point(644, 200);
+			this->button3->Name = L"button3";
+			this->button3->Size = System::Drawing::Size(67, 37);
+			this->button3->TabIndex = 6;
+			this->button3->Text = L"copy";
+			this->button3->UseVisualStyleBackColor = true;
+			this->button3->Click += gcnew System::EventHandler(this, &MyForm::button3_Click);
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::Color::White;
-			this->ClientSize = System::Drawing::Size(671, 380);
+			this->ClientSize = System::Drawing::Size(723, 380);
+			this->Controls->Add(this->button3);
 			this->Controls->Add(this->numericUpDown1);
 			this->Controls->Add(this->button2);
 			this->Controls->Add(this->label1);
@@ -145,7 +161,8 @@ namespace visualpasswordgenerator {
 			this->PerformLayout();
 
 		}
-		//Gentrate password
+		//*********************************Gentrate password************************************
+
 		// randm_next which is use to creat new value number with previous value
 		unsigned long int randm_next = 1;
 		// randm function return a big value every time differnt value
@@ -168,7 +185,10 @@ namespace visualpasswordgenerator {
 			return random;
 		}
 #pragma endregion
-	//button for genrated
+	//**************************************button for genrate***************************
+
+
+
 	private: System::Void button1_Click(System::Object^ sender, System::EventArgs^ e) {
 		//give srandm cureent time because time is different every time when program is run
 		srandm(time(0));
@@ -176,6 +196,7 @@ namespace visualpasswordgenerator {
 		//password which storged the password
 		String^ password;
 		//passwrdlength is which length password user want 
+		//numericupdowm is used to enter which length password required
 		int PassowrdLength = (int)numericUpDown1->Value;
 		//while loop run to creat the password
 		while (count < PassowrdLength)
@@ -222,11 +243,17 @@ namespace visualpasswordgenerator {
 		textBox1->Text = password;
 		
 	}
-		   //Exit button to exit the application;
+	//***********************Exit button to exit the application****************************
 	private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) {
 		Application::Exit();
 	}
 private: System::Void numericUpDown1_ValueChanged(System::Object^ sender, System::EventArgs^ e) {
+}
+	   //*********************************copy button***************************************
+	
+private: System::Void button3_Click(System::Object^ sender, System::EventArgs^ e) {
+	//copy the text to the cilpboard
+		Clipboard::SetText(textBox1->Text);
 }
 };
 }
